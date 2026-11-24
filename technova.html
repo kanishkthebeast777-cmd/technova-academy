@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechAcademy | Learn Computer Science</title>
+
+<style>
+:root {
+  --bg:#0b1120;
+  --panel:#151f32;
+  --panel2:#1c2940;
+  --text:#f1f5f9;
+  --muted:#94a3b8;
+  --blue:#3b82f6;
+  --purple:#8b5cf6;
+  --border:#29364d;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button{font:inherit;cursor:pointer}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:245px;
+  background:#101a2b;
+  border-right:1px solid var(--border);
+  padding:25px 16px;
+  position:fixed;
+  height:100vh;
+}
+.logo{font-size:23px;font-weight:800;margin:5px 10px 35px}
+.logo span{color:#60a5fa}
+.nav-label{
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:2px;
+  margin:25px 12px 12px;
+}
+.nav-btn{
+  width:100%;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  background:transparent;
+  color:#aebbd0;
+  border:0;
+  padding:13px;
+  border-radius:9px;
+  text-align:left;
+  margin:4px 0;
+}
+.nav-btn:hover,.nav-btn.active{
+  background:#23385b;
+  color:white;
+}
+.main{
+  margin-left:245px;
+  width:calc(100% - 245px);
+  padding:28px 4%;
+  max-width:1500px;
+}
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:30px;
+}
+.topbar h2{margin:0;font-size:24px}
+.profile{
+  background:var(--panel);
+  padding:10px 15px;
+  border-radius:30px;
+  color:#bfdbfe;
+}
+.page{display:none}
+.page.active{display:block}
+.hero{
+  background:linear-gradient(115deg,#1d4ed8,#6d28d9);
+  border-radius:18px;
+  padding:35px;
+  margin-bottom:25px;
+  position:relative;
+  overflow:hidden;
+}
+.hero h1{font-size:32px;margin:0 0 12px}
+.hero p{color:#e0e7ff;max-width:550px;line-height:1.6}
+.hero button{
+  background:white;color:#1d4ed8;
+  border:0;border-radius:8px;
+  padding:12px 20px;font-weight:bold;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:25px;
+}
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:20px;
+}
+.stat-number{font-size:27px;font-weight:bold;margin:12px 0 5px}
+.muted{color:var(--muted);font-size:13px}
+.section-title{
+  display:flex;justify-content:space-between;
+  align-items:center;margin:30px 0 15px;
+}
+.section-title h2{font-size:20px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:17px;
+}
+.course-icon{
+  width:48px;height:48px;border-radius:12px;
+  display:grid;place-items:center;
+  font-size:24px;background:#243c65;
+}
+.course-card h3{margin:17px 0 8px}
+.course-card p{color:var(--muted);font-size:13px;line-height:1.6}
+.progress{
+  height:7px;background:#29364d;
+  border-radius:10px;overflow:hidden;margin:15px 0;
+}
+.progress div{
+  height:100%;background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+}
+.primary,.secondary{
+  border:0;border-radius:8px;padding:11px 16px;
+  font-weight:bold;
+}
+.primary{background:var(--blue);color:white}
+.secondary{background:var(--panel2);color:white;border:1px solid var(--border)}
+.primary:hover{background:#2563eb}
+.secondary:hover{background:#30415f}
+.lesson-list{display:grid;gap:12px}
+.lesson{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;
+}
+.lesson h3{font-size:15px;margin:0 0 5px}
+.lesson p{margin:0}
+.tag{
+  color:#93c5fd;background:#1e3a5f;
+  padding:5px 9px;border-radius:20px;font-size:11px;
+}
+input,textarea,select{
+  width:100%;padding:12px;
+  background:#0d1728;color:white;
+  border:1px solid var(--border);
+  border-radius:8px;margin:8px 0;
+}
+textarea{
+  min-height:250px;
+  font-family:Consolas,monospace;
+  resize:vertical;
+}
+.question{
+  font-size:19px;font-weight:bold;margin:22px 0;
+}
+.option{
+  display:block;width:100%;text-align:left;
+  background:var(--panel2);color:white;
+  border:1px solid var(--border);
+  border-radius:8px;padding:14px;margin:9px 0;
+}
+.option:hover{border-color:var(--blue)}
+.option:disabled{cursor:default;opacity:.8}
+.feedback{margin:15px 0;font-weight:bold}
+#preview{
+  width:100%;height:300px;
+  background:white;border:0;border-radius:8px;
+}
+.shortcut{
+  display:flex;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+  padding:15px 5px;
+}
+kbd{
+  background:#263750;padding:5px 9px;
+  border-radius:5px;color:#bfdbfe;
+}
+footer{
+  text-align:center;color:var(--muted);
+  margin-top:50px;font-size:12px;
+}
+.mobile-menu{display:none}
+@media(max-width:950px){
+ .sidebar{width:190px}
+ .main{margin-left:190px;width:calc(100% - 190px)}
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:650px){
+ .sidebar{
+  display:none;z-index:10;width:245px;
+ }
+ .sidebar.open{display:block}
+ .main{margin:0;width:100%;padding:20px 15px}
+ .mobile-menu{display:block}
+ .grid{grid-template-columns:1fr}
+ .hero{padding:25px}
+ .hero h1{font-size:25px}
+ .topbar h2{font-size:19px}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+  <div class="logo">Tech<span>Academy</span>.</div>
+
+  <div class="nav-label">LEARNING</div>
+  <button class="nav-btn active" data-page="dashboard">🏠 Dashboard</button>
+  <button class="nav-btn" data-page="courses">📚 My Courses</button>
+  <button class="nav-btn" data-page="playground">💻 Coding Lab</button>
+  <button class="nav-btn" data-page="quiz">🧠 Knowledge Quiz</button>
+
+  <div class="nav-label">RESOURCES</div>
+  <button class="nav-btn" data-page="shortcuts">⌨️ Shortcuts</button>
+  <button class="nav-btn" data-page="progress">🏆 My Progress</button>
+
+  <div class="nav-label">SETTINGS</div>
+  <button class="nav-btn" id="resetBtn">↻ Reset Progress</button>
+</aside>
+
+<main class="main">
+
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:12px">
+    <button class="secondary mobile-menu" onclick="toggleMenu()">☰</button>
+    <h2 id="pageTitle">Dashboard</h2>
+  </div>
+  <div class="profile">👤 Student</div>
+</div>
+
+<!-- DASHBOARD -->
+<section class="page active" id="dashboard">
+
+<div class="hero">
+  <h1>Learn. Code. Create. 🚀</h1>
+  <p>Welcome to TechAcademy. Build your computer knowledge,
+  learn programming and develop real digital skills.</p>
+  <button onclick="showPage('courses')">Explore Courses →</button>
+</div>
+
+<div class="stats">
+  <div class="card">
+    <div class="muted">Available Courses</div>
+    <div class="stat-number">04</div>
+    <div class="muted">Learning paths</div>
+  </div>
+  <div class="card">
+    <div class="muted">Completed Lessons</div>
+    <div class="stat-number" id="lessonStat">0</div>
+    <div class="muted">Keep learning</div>
+  </div>
+  <div class="card">
+    <div class="muted">Quiz Points</div>
+    <div class="stat-number" id="pointStat">0</div>
+    <div class="muted">Points earned</div>
+  </div>
+  <div class="card">
+    <div class="muted">Course Progress</div>
+    <div class="stat-number" id="percentStat">0%</div>
+    <div class="muted">Overall completion</div>
+  </div>
+</div>
+
+<div class="section-title">
+  <h2>Continue Learning</h2>
+  <button class="secondary" onclick="showPage('courses')">View all →</button>
+</div>
+
+<div class="grid" id="dashboardCourses"></div>
+</section>
+
+<!-- COURSES -->
+<section class="page" id="courses">
+  <div class="section-title">
+    <h2>Explore Courses</h2>
+  </div>
+  <p class="muted">Choose a course and complete its lessons to track your progress.</p>
+  <div class="grid" id="allCourses"></div>
+</section>
+
+<!-- PLAYGROUND -->
+<section class="page" id="playground">
+  <div class="card">
+    <h2>💻 HTML Coding Playground</h2>
+    <p class="muted">Write HTML code and click Run to see your result.</p>
+
+    <textarea id="editor" spellcheck="false"><!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+  padding: 30px;
+  background: #eef2ff;
+}
+h1 { color: #2563eb; }
+button {
+  background: #2563eb;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+}
+</style>
+</head>
+<body>
+<h1>Hello, World!</h1>
+<p>Welcome to my first website.</p>
+<button onclick="alert('It works!')">Click Me</button>
+</body>
+</html></textarea>
+
+    <button class="primary" onclick="runCode()">▶ Run Code</button>
+    <button class="secondary" onclick="resetCode()">Reset Editor</button>
+
+    <h3>Live Preview</h3>
+    <iframe id="preview" title="Code preview" sandbox="allow-scripts"></iframe>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="page" id="quiz">
+  <div class="card">
+    <h2>🧠 Computer Knowledge Quiz</h2>
+    <p class="muted" id="quizCount">Question 1 of 5</p>
+    <div class="progress"><div id="quizBar" style="width:20%"></div></div>
+    <div class="question" id="question"></div>
+    <div id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="primary" id="nextBtn" onclick="nextQuestion()" disabled>Next Question →</button>
+    <button class="secondary" onclick="restartQuiz()">Restart Quiz</button>
+  </div>
+</section>
+
+<!-- SHORTCUTS -->
+<section class="page" id="shortcuts">
+  <div class="card">
+    <h2>⌨️ Keyboard Shortcuts Library</h2>
+    <p class="muted">Useful shortcuts for everyday computer work.</p>
+    <div class="shortcut"><span>Copy</span><kbd>Ctrl + C</kbd></div>
+    <div class="shortcut"><span>Paste</span><kbd>Ctrl + V</kbd></div>
+    <div class="shortcut"><span>Cut</span><kbd>Ctrl + X</kbd></div>
+    <div class="shortcut"><span>Undo</span><kbd>Ctrl + Z</kbd></div>
+    <div class="shortcut"><span>Save</span><kbd>Ctrl + S</kbd></div>
+    <div class="shortcut"><span>Select All</span><kbd>Ctrl + A</kbd></div>
+    <div class="shortcut"><span>Find</span><kbd>Ctrl + F</kbd></div>
+    <div class="shortcut"><span>Switch Windows</span><kbd>Alt + Tab</kbd></div>
+    <div class="shortcut"><span>Refresh Page</span><kbd>Ctrl + R</kbd></div>
+    <div class="shortcut"><span>New Tab</span><kbd>Ctrl + T</kbd></div>
+  </div>
+</section>
+
+<!-- PROGRESS -->
+<section class="page" id="progress">
+  <div class="card">
+    <h2>🏆 Your Learning Progress</h2>
+    <p class="muted">Your achievements are saved in this browser.</p>
+    <h3 id="progressText">0% Completed</h3>
+    <div class="progress"><div id="progressBar" style="width:0%"></div></div>
+    <p id="progressDetails">0 of 12 lessons completed.</p>
+    <h3>Quiz Points</h3>
+    <div class="stat-number" id="progressPoints">0</div>
+    <p class="muted">Complete more lessons and quizzes to improve your score.</p>
+  </div>
+</section>
+
+<footer>
+  © 2026 TechAcademy. Learn something new every day.
+</footer>
+
+</main>
+</div>
+
+<script>
+const courses = [
+ {
+  id:0,icon:"🖥️",name:"Computer Fundamentals",
+  description:"Understand computers, hardware, software and operating systems.",
+  lessons:[
+   ["What is a Computer?","A computer is an electronic device that accepts data, processes it and produces useful information."],
+   ["Computer Hardware","Hardware means the physical components of a computer, such as the monitor, keyboard, mouse and CPU."],
+   ["Computer Software","Software is a collection of programs and instructions that tell a computer what to do."]
+  ]
+ },
+ {
+  id:1,icon:"🌐",name:"HTML Fundamentals",
+  description:"Learn how websites are structured using HTML.",
+  lessons:[
+   ["Introduction to HTML","HTML stands for HyperText Markup Language. It provides the structure of web pages."],
+   ["HTML Elements","HTML elements use tags to organize headings, paragraphs, images and links."],
+   ["Creating Your First Page","An HTML page usually includes html, head, title and body elements."]
+  ]
+ },
+ {
+  id:2,icon:"🎨",name:"CSS Design",
+  description:"Make websites attractive with colours, layouts and styling.",
+  lessons:[
+   ["Introduction to CSS","CSS stands for Cascading Style Sheets. It controls how web pages look."],
+   ["Colours and Fonts","CSS can change text colour, background colour, font size and font family."],
+   ["Layouts","CSS Flexbox and Grid help arrange website content."]
+  ]
+ },
+ {
+  id:3,icon:"⚡",name:"JavaScript Basics",
+  description:"Make websites interactive using JavaScript.",
+  lessons:[
+   ["Introduction to JavaScript","JavaScript is a programming language that adds behaviour to websites."],
+   ["Variables","Variables store information using let, const and var."],
+   ["Functions","Functions are reusable blocks of code that perform particular tasks."]
+  ]
+ }
+];
+
+let completed = JSON.parse(localStorage.getItem("techCompleted") || "[]");
+let points = Number(localStorage.getItem("techPoints") || 0);
+
+function save(){
+ localStorage.setItem("techCompleted",JSON.stringify(completed));
+ localStorage.setItem("techPoints",String(points));
+ updateStats();
+}
+
+function updateStats(){
+ const total=12;
+ const count=completed.length;
+ const percent=Math.round(count/total*100);
+ document.getElementById("lessonStat").textContent=count;
+ document.getElementById("pointStat").textContent=points;
+ document.getElementById("percentStat").textContent=percent+"%";
+ document.getElementById("progressText").textContent=percent+"% Completed";
+ document.getElementById("progressBar").style.width=percent+"%";
+ document.getElementById("progressDetails").textContent=count+" of 12 lessons completed.";
+ document.getElementById("progressPoints").textContent=points;
+}
+
+function showPage(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+
+ document.querySelectorAll(".nav-btn[data-page]").forEach(b=>{
+  b.classList.toggle("active",b.dataset.page===id);
+ });
+
+ const names={
+ dashboard:"Dashboard",courses:"My Courses",
+ playground:"Coding Lab",quiz:"Knowledge Quiz",
+ shortcuts:"Keyboard Shortcuts",progress:"My Progress"
+ };
+ document.getElementById("pageTitle").textContent=names[id];
+ document.getElementById("sidebar").classList.remove("open");
+ window.scrollTo(0,0);
+}
+
+document.querySelectorAll(".nav-btn[data-page]").forEach(btn=>{
+ btn.addEventListener("click",()=>showPage(btn.dataset.page));
+});
+
+function toggleMenu(){
+ document.getElementById("sidebar").classList.toggle("open");
+}
+
+function renderCourses(){
+ const html=courses.map(c=>{
+  const done=c.lessons.filter((l,i)=>completed.includes(c.id+"-"+i)).length;
+  const percent=Math.round(done/3*100);
+  return `
+  <div class="card course-card">
+   <div class="course-icon">${c.icon}</div>
+   <h3>${c.name}</h3>
+   <p>${c.description}</p>
+   <div class="muted">${done}/3 lessons completed</div>
+   <div class="progress"><div style="width:${percent}%"></div></div>
+   <button class="primary" onclick="openCourse(${c.id})">Open Course →</button>
+  </div>`;
+ }).join("");
+
+ document.getElementById("allCourses").innerHTML=html;
+ document.getElementById("dashboardCourses").innerHTML=html;
+}
+
+function openCourse(id){
+ const c=courses[id];
+ const content=c.lessons.map((l,i)=>{
+  const key=id+"-"+i;
+  const done=completed.includes(key);
+  return `
+  <div class="card lesson">
+   <div>
+    <h3>${i+1}. ${l[0]}</h3>
+    <p class="muted">${done?"Completed":"Not completed"}</p>
+   </div>
+   <button class="${done?"secondary":"primary"}"
+    onclick="readLesson(${id},${i})">
+    ${done?"Review":"Start Lesson"}
+   </button>
+  </div>`;
+ }).join("");
+
+ document.getElementById("courses").innerHTML=`
+  <div class="card">
+   <button class="secondary" onclick="renderCourses()">← Back to courses</button>
+   <h2>${c.icon} ${c.name}</h2>
+   <p class="muted">${c.description}</p>
+  </div>
+  <div class="lesson-list">${content}</div>`;
+ showPage("courses");
+}
+
+function readLesson(id,index){
+ const c=courses[id];
+ const key=id+"-"+index;
+ const done=completed.includes(key);
+
+ const old=document.getElementById("lessonReading");
+ if(old)old.remove();
+
+ const box=document.createElement("div");
+ box.id="lessonReading";
+ box.className="card";
+ box.innerHTML=`
+  <h2>${c.lessons[index][0]}</h2>
+  <p style="line-height:1.8">${c.lessons[index][1]}</p>
+  <button class="primary" id="completeLesson">
+   ${done?"Already Completed ✓":"Mark as Completed ✓"}
+  </button>`;
+ document.getElementById("courses").appendChild(box);
+
+ document.getElementById("completeLesson").onclick=()=>{
+  if(!completed.includes(key)){
+   completed.push(key);
+   points+=10;
+   save();
+  }
+  openCourse(id);
+  renderCourses();
+ };
+}
+
+const questions=[
+ {q:"What does CPU stand for?",a:["Central Processing Unit","Computer Personal Unit","Central Program Utility"],correct:0},
+ {q:"Which of these is an input device?",a:["Monitor","Keyboard","Speaker"],correct:1},
+ {q:"What does HTML stand for?",a:["HyperText Markup Language","HighText Machine Language","Hyper Tool Making Language"],correct:0},
+ {q:"Which language is used to style websites?",a:["Python","CSS","SQL"],correct:1},
+ {q:"Which keyword declares a variable in modern JavaScript?",a:["let","print","style"],correct:0}
+];
+
+let qi=0;
+let quizScore=0;
+let answered=false;
+
+function showQuestion(){
+ const q=questions[qi];
+ document.getElementById("quizCount").textContent=`Question ${qi+1} of ${questions.length}`;
+ document.getElementById("quizBar").style.width=((qi+1)/questions.length*100)+"%";
+ document.getElementById("question").textContent=q.q;
+ document.getElementById("feedback").textContent="";
+ document.getElementById("nextBtn").disabled=true;
+ document.getElementById("nextBtn").textContent=qi===questions.length-1?"See Results →":"Next Question →";
+ answered=false;
+
+ document.getElementById("options").innerHTML=q.a.map((a,i)=>
+ `<button class="option" onclick="checkAnswer(${i})">${a}</button>`
+ ).join("");
+}
+
+function checkAnswer(choice){
+ if(answered)return;
+ answered=true;
+ const q=questions[qi];
+ const buttons=document.querySelectorAll(".option");
+
+ buttons.forEach((b,i)=>{
+  b.disabled=true;
+  if(i===q.correct)b.style.borderColor="#22c55e";
+  if(i===choice&&choice!==q.correct)b.style.borderColor="#ef4444";
+ });
+
+ if(choice===q.correct){
+  quizScore++;
+  document.getElementById("feedback").textContent="✓ Correct answer! Well done.";
+ }else{
+  document.getElementById("feedback").textContent="Not quite! Correct answer: "+q.a[q.correct];
+ }
+ document.getElementById("nextBtn").disabled=false;
+}
+
+function nextQuestion(){
+ if(!answered)return;
+ if(qi===questions.length-1){
+  points+=quizScore*5;
+  save();
+  document.getElementById("quiz").innerHTML=`
+   <div class="card">
+    <h2>🎉 Quiz Completed!</h2>
+    <div class="stat-number">${quizScore}/${questions.length}</div>
+    <p>You answered ${quizScore} questions correctly.</p>
+    <p class="muted">You earned ${quizScore*5} points!</p>
+    <button class="primary" onclick="restartQuiz()">Try Again</button>
+    <button class="secondary" onclick="showPage('dashboard')">Dashboard</button>
+   </div>`;
+  return;
+ }
+ qi++;
+ showQuestion();
+}
+
+function restartQuiz(){
+ qi=0;
+ quizScore=0;
+ document.getElementById("quiz").innerHTML=`
+ <div class="card">
+  <h2>🧠 Computer Knowledge Quiz</h2>
+  <p class="muted" id="quizCount"></p>
+  <div class="progress"><div id="quizBar"></div></div>
+  <div class="question" id="question"></div>
+  <div id="options"></div>
+  <div class="feedback" id="feedback"></div>
+  <button class="primary" id="nextBtn" onclick="nextQuestion()" disabled>Next Question →</button>
+  <button class="secondary" onclick="restartQuiz()">Restart Quiz</button>
+ </div>`;
+ showQuestion();
+}
+
+const starterCode=document.getElementById("editor").value;
+
+function runCode(){
+ const code=document.getElementById("editor").value;
+ document.getElementById("preview").srcdoc=code;
+}
+
+function resetCode(){
+ document.getElementById("editor").value=starterCode;
+ runCode();
+}
+
+document.getElementById("resetBtn").onclick=()=>{
+ if(confirm("Are you sure you want to reset all learning progress?")){
+  completed=[];
+  points=0;
+  save();
+  renderCourses();
+  showPage("dashboard");
+ }
+};
+
+renderCourses();
+updateStats();
+showQuestion();
+runCode();
+</script>
+</body>
+</html>
